@@ -1,7 +1,32 @@
-# Inherit some common stuff.
-$(call inherit-product, vendor/du/config/common_full_phone.mk)
+#
+# Copyright (C) 2014 The CyanogenMod Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# This file is the build configuration for a full Android
+# build for moto_msm8960 hardware. This cleanly combines a set of
+# device-specific aspects (drivers) with a device-agnostic
+# product configuration (apps). Except for a few implementation
+# details, it only fundamentally contains two inherit-product
+# lines, full and moto_msm8960, hence its name.
+#
 
-# Enhanced NFC
+# Inherit from those products. Most specific first.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+
+# Inherit from our custom product configuration
+$(call inherit-product, vendor/du/config/common_full_phone.mk)
 $(call inherit-product, vendor/du/config/nfc_enhanced.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/motorola/qcom-common/overlay-cm
@@ -11,12 +36,12 @@ PRODUCT_COPY_FILES += \
     device/motorola/msm8960-common/config/media_codecs.xml:system/etc/media_codecs.xml \
     frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
 
+# Inherit from  device
+$(call inherit-product, device/motorola/xt926/device.mk)
+
+# Release name
+PRODUCT_DEVICE := xt926
 PRODUCT_NAME := du_xt926
-TARGET_VENDOR_PRODUCT_NAME := XT926_verizon
-TARGET_VENDOR_DEVICE_NAME := vanquish
-
-$(call inherit-product, device/motorola/xt926/full_xt926.mk)
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT=motorola/XT926_verizon/vanquish:4.4.2/KDA20.62-15.1/15:user/release-keys \
-    PRIVATE_BUILD_DESC="vanquish_vzw-user 4.4.2 KDA20.62-15.1 15 release-keys"
+PRODUCT_BRAND := motorola
+PRODUCT_MODEL := DROID RAZR HD
+PRODUCT_MANUFACTURER := motorola
